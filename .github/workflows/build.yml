@@ -15,10 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ spring-starter ]
+        service: [ xkcd-data-hub-lite ]
     uses: yonatankarp/github-actions/.github/workflows/ci.yml@v1
     with:
       app_name: ${{ matrix.service }}
+      dockerfile_path: ./Dockerfile
 
   dependabot_auto_merge:
     needs: pipeline

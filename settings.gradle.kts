@@ -1,4 +1,1 @@
-rootProject.name = "spring-starter"
-include(
-    "spring-starter"
-)
+rootProject.name = "xkcd-data-hub-lite"
