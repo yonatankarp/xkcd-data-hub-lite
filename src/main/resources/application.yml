@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: xkcd-data-hub-lite
+
+management:
+  server:
+    port: ${server.port}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  endpoint:
+    health:
+      probes.enabled: true
+      show-details: always
+      livenessState.enabled: true
+      readinessState.enabled: true
