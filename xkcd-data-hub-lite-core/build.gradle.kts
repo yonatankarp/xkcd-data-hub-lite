@@ -10,6 +10,11 @@ dependencies {
     implementation(libs.bundles.kotlin.all)
     implementation(libs.bundles.springboot.all)
 
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.jackson)
+
     testImplementation(libs.bundles.tests.all)
     testImplementation(libs.bundles.springboot.tests.all)
 }
