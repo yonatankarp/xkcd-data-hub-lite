@@ -19,3 +19,8 @@ management:
       show-details: always
       livenessState.enabled: true
       readinessState.enabled: true
+
+xkcd:
+  base-url: https://xkcd.com
+  cronjob:
+    schedule: "0 * * * * *"
