@@ -1,15 +1,23 @@
 [versions]
 
 coroutines = "1.8.1"
-jvmTarget = "21"
+exposed = "0.54.0"
+flyway = "10.17.2"
+hikari = "5.1.0"
+koin = "3.5.6"
+kotest = "4.0.7"
 kotlin = "2.0.20"
+ktor = "2.3.12"
+logback = "1.5.7"
 mockk = "1.13.12"
 mockkSpring = "4.0.2"
+pitest = "1.15.0"
+postgres = "42.7.4"
 spotless = "6.25.0"
 springDependencyManagement = "1.1.6"
 springboot = "3.3.3"
 swagger = "7.8.0"
-testcontainers = "1.20.1"
+testContainers = "1.20.1"
 
 [libraries]
 
@@ -19,25 +27,60 @@ kotlin_jackson_module = { module = "com.fasterxml.jackson.module:jackson-module-
 kotlin_reflection = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlinx_coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx_coroutines_reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
-kotlinx_coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 # Spring Boot
+mockk_spring = { module = "com.ninja-squad:springmockk", version.ref = "mockkSpring" }
 springboot_actuator_starter = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 springboot_test_starter = { module = "org.springframework.boot:spring-boot-starter-test" }
 springboot_validation_starter = { module = "org.springframework.boot:spring-boot-starter-validation" }
-springboot_web_starter = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+springboot_webflux_starter = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 
-# Testing
-mockk_core = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk_spring = { module = "com.ninja-squad:springmockk", version.ref = "mockkSpring" }
-testcontainers_bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
-testcontainers_jupiter = { module = "org.testcontainers:junit-jupiter" }
+## Ktor
+ktor_client_cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor_client_content_negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor_client_mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+ktor_core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor_serialization_kotlinx_json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor_server_netty_jvm = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor_tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+
+## DI
+koin = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin_test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+
+## Exposed
+exposed_core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed_dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed_java_time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed" }
+exposed_jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed_json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed" }
+
+## Persistence
+flyway = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+postgres_driver = { module = "org.postgresql:postgresql", version.ref = "postgres" }
+
+## Logging
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+## Tests
+kotest_assertions_jvm = { module = "io.kotest:kotest-assertions-jvm", version.ref = "kotest" }
+kotlin_coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlin_test_junit = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+## Test Containers
+test_containers = { module = "org.testcontainers:junit-jupiter", version.ref = "testContainers" }
+test_containers_postgres = { module = "org.testcontainers:postgresql", version.ref = "testContainers" }
 
 [plugins]
 
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin_spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 openapi_generator = { id = "org.openapi.generator", version.ref = "swagger" }
+pitest = { id = "info.solidsoft.pitest", version.ref = "pitest" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 springboot = { id = "org.springframework.boot", version.ref = "springboot" }
 springboot_dependency_management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
@@ -55,13 +98,49 @@ kotlin_all = [
 springboot_all = [
     "springboot_actuator_starter",
     "springboot_validation_starter",
-    "springboot_web_starter",
+    "springboot_webflux_starter",
 ]
 
-test_all = [
-    "kotlinx_coroutines_test",
-    "mockk_core",
-    "mockk_spring",
+springboot_tests_all = [
     "springboot_test_starter",
-    "testcontainers_jupiter",
+    "mockk_spring",
+]
+
+ktor_all = [
+    "ktor_client_cio",
+    "ktor_client_content_negotiation",
+    "ktor_core",
+    "ktor_serialization_kotlinx_json",
+    "ktor_server_netty_jvm",
+]
+
+ktor_tests_all = [
+    "ktor_client_mock",
+    "ktor_tests",
+]
+
+exposed_all = [
+    "exposed_core",
+    "exposed_dao",
+    "exposed_java_time",
+    "exposed_jdbc",
+    "exposed_json",
+]
+
+persistance_all = [
+    "flyway",
+    "hikari",
+    "postgres_driver",
+]
+
+persistance_test_all = [
+    "test_containers",
+    "test_containers_postgres",
+]
+
+tests_all = [
+    "kotest_assertions_jvm",
+    "kotlin_coroutines_test",
+    "kotlin_test_junit",
+    "mockk"
 ]
