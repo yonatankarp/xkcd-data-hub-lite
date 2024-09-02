@@ -10,7 +10,7 @@ RUN apk update && apk upgrade && apk add --no-cache curl openssl gcompat bash bu
 
 RUN mkdir -p ${APP_BASE}/${APP_NAME}
 
-COPY build/libs/${APP_NAME}*.jar ${APP_BASE}/${APP_NAME}.jar
+COPY xkcd-data-hub-lite-core/build/libs/${APP_NAME}*.jar ${APP_BASE}/${APP_NAME}.jar
 
 # Running the image as 'nobody' user
 # https://stackoverflow.com/questions/72562483/is-it-safe-to-run-openjdk-images-like-eclipse-temurin-as-root
