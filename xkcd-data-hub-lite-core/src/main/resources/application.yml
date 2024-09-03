@@ -17,10 +17,17 @@ management:
     health:
       probes.enabled: true
       show-details: always
-      livenessState.enabled: true
-      readinessState.enabled: true
+  health:
+    livenessstate.enabled: true
+    readinessstate.enabled: true
 
 xkcd:
   base-url: https://xkcd.com
   cronjob:
-    schedule: "0 * * * * *"
+    schedule: "0 0 */12 * * *"
+  fetch:
+    on-startup: true
+    producers: 10
+    consumers: 15
+    max-queue-size: 50
+
