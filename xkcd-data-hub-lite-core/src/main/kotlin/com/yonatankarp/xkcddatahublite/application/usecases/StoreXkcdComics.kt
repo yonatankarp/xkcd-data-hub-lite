@@ -1,5 +1,6 @@
 package com.yonatankarp.xkcddatahublite.application.usecases
 
+import com.yonatankarp.xkcddatahublite.application.ports.WebComicsPersistencePort
 import com.yonatankarp.xkcddatahublite.domain.entity.WebComics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,14 +13,16 @@ import org.springframework.stereotype.Component
 @Component
 class StoreXkcdComics(
     private val channel: ReceiveChannel<WebComics>,
+    private val webComicsPersistencePort: WebComicsPersistencePort,
     @Value("\${xkcd.fetch.consumers}") private val numberOfConsumers: Int,
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ) {
     suspend fun registerConsumers() =
-        repeat(numberOfConsumers) { index ->
+        repeat(numberOfConsumers) {
             scope.launch {
-                for (data in channel) {
-                    logger.info("Coroutine $index received: ${data.id} - ${data.title}")
+                for (comics in channel) {
+                    logger.info("Storing comic ${comics.title}")
+                    webComicsPersistencePort.save(comics)
                 }
             }
         }

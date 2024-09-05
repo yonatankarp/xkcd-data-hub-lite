@@ -1,5 +1,6 @@
 package com.yonatankarp.xkcddatahublite.application.usecases
 
+import com.yonatankarp.xkcddatahublite.application.ports.WebComicsPersistencePort
 import com.yonatankarp.xkcddatahublite.application.ports.XkcdClientPort
 import com.yonatankarp.xkcddatahublite.domain.entity.WebComics
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 class GetAllXkcdComics(
     private val client: XkcdClientPort,
+    private val webComicsPersistencePort: WebComicsPersistencePort,
     private val channel: SendChannel<WebComics>,
     @Value("\${xkcd.fetch.producers}") private val numberOfProducers: Int,
 ) {
@@ -21,12 +23,13 @@ class GetAllXkcdComics(
         coroutineScope {
             withContext(Dispatchers.IO) {
                 val latestComicId = client.getLatestComicId()
-                (1..latestComicId).chunked(latestComicId / numberOfProducers)
+                val latestStoredId = webComicsPersistencePort.findLastStoredId()
+                logger.info("Starting to fetch comics from $latestStoredId to $latestComicId")
+                (latestStoredId..latestComicId).chunked(latestComicId / numberOfProducers)
                     .forEach { chunk ->
                         launch(Dispatchers.IO) {
                             chunk.forEach { id ->
                                 runCatching {
-                                    logger.info("Fetching comic $id")
                                     val comics = client.getComicsById(id)
                                     channel.send(comics)
                                 }.onFailure { logger.error("Failed to fetch comic $it") }

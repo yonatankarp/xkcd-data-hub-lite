@@ -15,6 +15,9 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.jackson)
 
+    implementation(libs.opensearch.spring.starter)
+    testImplementation(libs.opensearch.test.autoconfigure)
+
     testImplementation(libs.bundles.tests.all)
     testImplementation(libs.bundles.springboot.tests.all)
 }

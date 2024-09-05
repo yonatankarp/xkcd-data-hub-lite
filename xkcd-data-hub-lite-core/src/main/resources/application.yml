@@ -31,3 +31,7 @@ xkcd:
     consumers: 15
     max-queue-size: 50
 
+opensearch:
+  uris: ${OPENSEARCH_URL:http://localhost:9200}
+  username: ${OPENSEARCH_USERNAME:admin}
+  password: ${OPENSEARCH_PASSWORD:admin}
