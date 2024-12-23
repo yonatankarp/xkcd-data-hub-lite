@@ -21,7 +21,8 @@ class GetAllXkcdComics(
         coroutineScope {
             withContext(Dispatchers.IO) {
                 val latestComicId = client.getLatestComicId()
-                (1..latestComicId).chunked(latestComicId / numberOfProducers)
+                (1..latestComicId)
+                    .chunked(latestComicId / numberOfProducers)
                     .forEach { chunk ->
                         launch(Dispatchers.IO) {
                             chunk.forEach { id ->
