@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Controller
 
 @Controller
-class XkcdFetcherCronJobAdapter(private val getAllXkcdComics: GetAllXkcdComics) {
+class XkcdFetcherCronJobAdapter(
+    private val getAllXkcdComics: GetAllXkcdComics,
+) {
     @Scheduled(cron = "\${xkcd.cronjob.schedule}")
     suspend fun fetchXkcdComics() {
         logger.info("Starting fetch of new xkcd comics")
